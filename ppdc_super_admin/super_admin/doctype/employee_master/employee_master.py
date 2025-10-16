@@ -1,12 +1,43 @@
 # Copyright (c) 2025, Digiice Development Team and contributors
 # For license information, please see license.txt
 
+from typing import Dict, List, Optional, Any, TypedDict, Union, cast
 import frappe
 from frappe.model.document import Document
+from frappe.types import DF
 from frappe import _
 
+class EmployeeRole(TypedDict):
+    role: str
+    permission: str
+    permission_description: str
+
+class User(Document):
+    enabled: bool
+    roles: List[Dict[str, str]]
+    email: str
+    first_name: str
+    username: str
+    name: str
+    user_type: str
+    
+    def add_roles(self, *roles: str) -> None: ...
+
 class EmployeeMaster(Document):
-    def validate(self):
+    # Document fields
+    name: str
+    employee_name: str
+    employee_code: str
+    employee_type: str
+    designation: str
+    contact_number: str
+    email: str
+    user: Optional[str]
+    role: Optional[str]
+    is_active: bool
+    employee_roles: List[EmployeeRole]
+    
+    def validate(self) -> None:
         if self.user and not self.email:
             frappe.throw(_("Email is required for user creation"))
         
@@ -86,36 +117,75 @@ class EmployeeMaster(Document):
 
     def assign_default_role(self, user_name):
         try:
-            # Define role mapping
-            role_mapping = {
-                "Officer": "PPDC Officer",
-                "Ad-hoc": "PPDC Staff",
-                "Contract": "PPDC Staff",
-                "OJT": "PPDC Trainee",
-                "Temp": "PPDC Staff",
-                "Retired": "PPDC Consultant"
-            }
+            # First check if a specific role is assigned
+            if self.role:
+                role_name = self.role
+            else:
+                # Use default role mapping if no specific role
+                role_mapping = {
+                    "Officer": "PPDC Officer",
+                    "Ad-hoc": "PPDC Staff",
+                    "Contract": "PPDC Staff",
+                    "OJT": "PPDC Trainee",
+                    "Temp": "PPDC Staff",
+                    "Retired": "PPDC Consultant"
+                }
+                
+                if self.employee_type in role_mapping:
+                    role_name = role_mapping[self.employee_type]
+                else:
+                    role_name = "PPDC Staff"  # Default fallback role
             
-            if self.employee_type in role_mapping:
-                role_name = role_mapping[self.employee_type]
-                
-                # Create role if it doesn't exist
-                if not frappe.db.exists("Role", role_name):
-                    new_role = frappe.get_doc({
-                        "doctype": "Role",
-                        "role_name": role_name,
-                        "desk_access": 1
-                    })
-                    new_role.insert(ignore_permissions=True)
-                
-                # Assign role to user
-                user = frappe.get_doc("User", user_name)
-                user.add_roles(role_name)
-                user.save(ignore_permissions=True)
-                
-                frappe.db.commit()
-                
-                frappe.msgprint(f"Role {role_name} assigned to user {user_name}")
+            # Create role if it doesn't exist
+            if not frappe.db.exists("Role", role_name):
+                new_role = frappe.get_doc({
+                    "doctype": "Role",
+                    "role_name": role_name,
+                    "desk_access": 1
+                })
+                new_role.insert(ignore_permissions=True)
+            
+            # Assign role to user
+            user = frappe.get_doc("User", user_name)
+            user.add_roles(role_name)
+            
+            # Apply any role permissions from Role Permission Master
+            role_permissions = frappe.get_all(
+                "Role Permission Master",
+                filters={"permission_name": role_name},
+                fields=["name"]
+            )
+            
+            if role_permissions:
+                for rp in role_permissions:
+                    perm_doc = frappe.get_doc("Role Permission Master", rp.name)
+                    perm_doc.apply_permissions_to_role(role_name)
+            
+            # Handle additional role assignments from employee_roles
+            if self.employee_roles:
+                for role_row in self.employee_roles:
+                    if role_row.role != role_name:  # Avoid duplicate assignment
+                        user.add_roles(role_row.role)
+                        # Apply role permissions for additional roles
+                        add_role_perms = frappe.get_all(
+                            "Role Permission Master",
+                            filters={"permission_name": role_row.role},
+                            fields=["name"]
+                        )
+                        for rp in add_role_perms:
+                            perm_doc = frappe.get_doc("Role Permission Master", rp.name)
+                            perm_doc.apply_permissions_to_role(role_row.role)
+            
+            user.save(ignore_permissions=True)
+            frappe.db.commit()
+            
+            msg = f"Role {role_name} assigned to user {user_name}"
+            if self.employee_roles:
+                additional_roles = ", ".join([r.role for r in self.employee_roles if r.role != role_name])
+                if additional_roles:
+                    msg += f" with additional roles: {additional_roles}"
+            
+            frappe.msgprint(msg)
                 
         except Exception as e:
             frappe.log_error(f"Role assignment failed: {str(e)}")
@@ -188,17 +258,19 @@ def after_save(self, method):
     if self.user and self.employee_roles:
         assign_roles_to_user(self.user, self.employee_roles)
 
-def assign_roles_to_user(user, employee_roles):
-    user_doc = frappe.get_doc("User", user)
+def assign_roles_to_user(user: str, employee_roles: Union[str, List[EmployeeRole], None]) -> None:
+    user_doc = cast(User, frappe.get_doc("User", user))
+    
     # Retain 'System Manager' role and override others
-    user_doc.set("roles", [r for r in user_doc.roles if r.role == "System Manager"])
+    existing_roles = [r for r in user_doc.roles if r.get("role") == "System Manager"]
+    user_doc.set("roles", existing_roles)
     
     # Handle role assignments
     if employee_roles:
         if isinstance(employee_roles, str):
-            user_doc.append("roles", {"role": employee_roles})
+            user_doc.append("roles", {"role": employee_roles, "parenttype": "User"})
         elif isinstance(employee_roles, list):
             for role_row in employee_roles:
-                user_doc.append("roles", {"role": role_row.role})
+                user_doc.append("roles", {"role": role_row["role"], "parenttype": "User"})
     
     user_doc.save(ignore_permissions=True)
