@@ -18,74 +18,108 @@ class EmployeeMaster(Document):
             self.create_user()
             
     def create_user(self):
-        if not frappe.db.exists("User", self.email):
-            try:
-                # Check email configuration
-                email_settings = frappe.get_doc('Email Account')
-                if not (email_settings.smtp_server and email_settings.smtp_port):
-                    # If email not configured, create user without welcome email
-                    user = frappe.get_doc({
-                        "doctype": "User",
-                        "email": self.email,
-                        "first_name": self.employee_name,
-                        "username": self.employee_code,
-                        "enabled": 1,
-                        "send_welcome_email": 0,  # Disable welcome email
-                        "user_type": "System User",
-                    })
-                    user.insert(ignore_permissions=True)
-                    
-                    # Set a default password
-                    user.new_password = "Welcome@123"
-                    user.save(ignore_permissions=True)
-                    
-                    # Update employee document
-                    self.user = user.name
-                    
-                    # Assign default role based on employee type
-                    self.assign_default_role(user.name)
-                    
-                    frappe.msgprint(_("""User {0} created successfully. 
-                        Email configuration not found. 
-                        Default password set to: Welcome@123""").format(user.name))
-                else:
-                    # Create user with welcome email if email is configured
-                    user = frappe.get_doc({
-                        "doctype": "User",
-                        "email": self.email,
-                        "first_name": self.employee_name,
-                        "username": self.employee_code,
-                        "enabled": 1,
-                        "send_welcome_email": 1,
-                        "user_type": "System User",
-                    })
-                    user.insert(ignore_permissions=True)
-                    
-                    # Update employee document
-                    self.user = user.name
-                    
-                    # Assign default role based on employee type
-                    self.assign_default_role(user.name)
-                    
-                    frappe.msgprint(_("User {0} created successfully. Welcome email sent.").format(user.name))
-                    
-            except Exception as e:
-                frappe.log_error(f"User creation failed: {str(e)}")
-                frappe.throw(_("Could not create user: {0}").format(str(e)))
+        try:
+            # Check if user exists
+            existing_user = frappe.db.exists("User", self.email)
+            if existing_user:
+                # Reactivate and reset existing user
+                user = frappe.get_doc("User", self.email)
+                user.enabled = 1
+                
+                # Clear existing password reset key
+                user.db_set('reset_password_key', '')
+                frappe.db.commit()
+                
+                user.save(ignore_permissions=True)
+            else:
+                # Create new user
+                user = frappe.get_doc({
+                    "doctype": "User",
+                    "email": self.email,
+                    "first_name": self.employee_name,
+                    "username": self.employee_code,
+                    "enabled": 1,
+                    "send_welcome_email": 0,
+                    "user_type": "System User",
+                })
+                user.insert(ignore_permissions=True)
+        
+            # Generate new reset key
+            reset_key = user.reset_password()
+            url = frappe.utils.get_url()
+            reset_url = f"{url}/update-password?key={reset_key}"
+            
+            # Send welcome email with reset link
+            frappe.sendmail(
+                recipients=[self.email],
+                subject="Welcome to Vigility Technologies (Demo)",
+                message=f"""
+                Hello {self.employee_name},
+                
+                Your account has been {['created', 'reactivated'][bool(existing_user)]} at {url}.
+                Your login id is: {self.email}
+                
+                Click on the link below to set your password (valid for 24 hours):
+                {reset_url}
+                
+                Note: This password reset link can only be used once.
+                
+                Best regards,
+                Team Vigility
+                """,
+                now=True,
+                reference_doctype="User",
+                reference_name=user.name
+            )
+            
+            # Update employee document and assign role
+            self.user = user.name
+            self.assign_default_role(user.name)
+            
+            frappe.msgprint(_(
+                "User {0} {1} successfully. Welcome email sent with password reset link."
+            ).format(user.name, ['created', 'reactivated'][bool(existing_user)]))
+            
+        except Exception as e:
+            frappe.log_error(f"User setup failed: {str(e)}")
+            frappe.throw(_("Could not setup user: {0}").format(str(e)))
 
     def assign_default_role(self, user_name):
-        role_mapping = {
-            "Officer": "PPDC Officer",
-            "Ad-hoc": "PPDC Staff",
-            "Contract": "PPDC Staff",
-            "OJT": "PPDC Trainee",
-            "Temp": "PPDC Staff",
-            "Retired": "PPDC Consultant"
-        }
-        
-        if self.employee_type in role_mapping:
-            role = role_mapping[self.employee_type]
-            self.assign_role_with_permissions(user_name, role)
+        try:
+            # Define role mapping
+            role_mapping = {
+                "Officer": "PPDC Officer",
+                "Ad-hoc": "PPDC Staff",
+                "Contract": "PPDC Staff",
+                "OJT": "PPDC Trainee",
+                "Temp": "PPDC Staff",
+                "Retired": "PPDC Consultant"
+            }
+            
+            if self.employee_type in role_mapping:
+                role_name = role_mapping[self.employee_type]
+                
+                # Create role if it doesn't exist
+                if not frappe.db.exists("Role", role_name):
+                    new_role = frappe.get_doc({
+                        "doctype": "Role",
+                        "role_name": role_name,
+                        "desk_access": 1
+                    })
+                    new_role.insert(ignore_permissions=True)
+                
+                # Assign role to user
+                user = frappe.get_doc("User", user_name)
+                user.add_roles(role_name)
+                user.save(ignore_permissions=True)
+                
+                frappe.db.commit()
+                
+                frappe.msgprint(f"Role {role_name} assigned to user {user_name}")
+                
+        except Exception as e:
+            frappe.log_error(f"Role assignment failed: {str(e)}")
+            frappe.throw(f"Could not assign role: {str(e)}")
 
     def assign_role_with_permissions(self, user_name, role_name):
         try:
@@ -118,14 +152,16 @@ class EmployeeMaster(Document):
             permission_doc.apply_permissions_to_role(role_name)
             
     def on_trash(self):
-        # Handle user deletion or deactivation when employee is deleted
+        """Handle employee deletion"""
         if self.user:
             try:
+                # Don't delete user, just disable
                 user = frappe.get_doc("User", self.user)
                 user.enabled = 0
                 user.save(ignore_permissions=True)
+                frappe.msgprint(_("User {0} has been disabled").format(self.user))
             except Exception as e:
-                frappe.log_error(f"User deactivation failed: {str(e)}")
+                frappe.log_error(f"Failed to disable user: {str(e)}")
 
 
 import frappe
