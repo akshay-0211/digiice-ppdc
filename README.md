@@ -1,6 +1,51 @@
-### PPDC Super Admin
+# PPDC Super Admin
 
-Super Admin module for PPDC Agra with Master Data Management
+Super Admin module for PPDC Agra with Master Data Management and RBAC
+
+## Setup
+
+### Prerequisites
+- Python 3.12+
+- Node.js 16+
+- Redis
+- MariaDB
+
+### Installation Steps
+
+1. Create new bench:
+```bash
+bench init frappe-bench
+cd frappe-bench
+```
+
+2. Get the app:
+```bash
+bench get-app https://github.com/akshay-0211/digiice-ppdc.git
+```
+
+3. Create new site:
+```bash
+bench new-site erpnext.localhost
+bench --site erpnext.localhost install-app ppdc_super_admin
+```
+
+4. Build and Start:
+```bash
+bench build
+bench start
+```
+
+### Email Configuration (Optional)
+```bash
+bench --site erpnext.localhost set-config -g mail_server "smtp.gmail.com"
+bench --site erpnext.localhost set-config -g mail_port 587
+bench --site erpnext.localhost set-config -g mail_use_tls 1
+```
+
+### Troubleshooting
+- Clear cache: `bench clear-cache`
+- Rebuild database: `bench --site erpnext.localhost migrate`
+- Check logs: `bench --site erpnext.localhost show-logs`
 
 ### Installation
 
