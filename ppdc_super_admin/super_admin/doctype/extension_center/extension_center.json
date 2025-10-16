@@ -1,0 +1,167 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:center_code",
+ "creation": "2025-10-15 14:49:49.088971",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "center_name",
+  "center_code",
+  "column_break_bhij",
+  "head_office",
+  "address_section",
+  "address_line_1",
+  "address_line_2",
+  "column_break_srlb",
+  "city",
+  "state",
+  "pincode",
+  "contact_section",
+  "center_incharge",
+  "contact_number",
+  "column_break_wgcc",
+  "email",
+  "status_section",
+  "is_active",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "bold": 1,
+   "fieldname": "center_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Center Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "center_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Center Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "column_break_bhij",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "head_office",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Head Office",
+   "options": "Head Office"
+  },
+  {
+   "fieldname": "address_section",
+   "fieldtype": "Section Break",
+   "label": "Address Details"
+  },
+  {
+   "fieldname": "address_line_1",
+   "fieldtype": "Data",
+   "label": "Address Line 1",
+   "reqd": 1
+  },
+  {
+   "fieldname": "address_line_2",
+   "fieldtype": "Data",
+   "label": "Address Line 2"
+  },
+  {
+   "fieldname": "column_break_srlb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City",
+   "reqd": 1
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Data",
+   "label": "State",
+   "reqd": 1
+  },
+  {
+   "fieldname": "pincode",
+   "fieldtype": "Data",
+   "label": "PIN Code",
+   "reqd": 1
+  },
+  {
+   "fieldname": "contact_section",
+   "fieldtype": "Section Break",
+   "label": "Contact Details"
+  },
+  {
+   "fieldname": "center_incharge",
+   "fieldtype": "Data",
+   "label": "Center Incharge"
+  },
+  {
+   "fieldname": "contact_number",
+   "fieldtype": "Data",
+   "label": "Contact Number",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_wgcc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "status_section",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-10-15 14:49:49.088971",
+ "modified_by": "Administrator",
+ "module": "Super Admin",
+ "name": "Extension Center",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

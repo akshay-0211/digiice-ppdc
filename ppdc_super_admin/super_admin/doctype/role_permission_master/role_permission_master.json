@@ -1,0 +1,210 @@
+{
+    "actions": [],
+    "allow_rename": 1,
+    "autoname": "field:permission_name",
+    "creation": "2025-10-16 15:00:00.000000",
+    "doctype": "DocType",
+    "engine": "InnoDB",
+    "field_order": [
+        "permission_name",
+        "permission_description",
+        "module_access_section",
+        "can_view_head_office",
+        "can_edit_head_office",
+        "can_view_extension_center",
+        "can_edit_extension_center",
+        "can_view_efc",
+        "can_edit_efc",
+        "scheme_access_section",
+        "can_view_schemes",
+        "can_edit_schemes",
+        "staff_access_section",
+        "can_view_faculty",
+        "can_edit_faculty",
+        "can_view_employees",
+        "can_edit_employees",
+        "report_access_section",
+        "can_view_reports",
+        "can_edit_reports",
+        "training_access_section",
+        "can_approve_training",
+        "admin_access_section",
+        "can_export_data",
+        "can_manage_users",
+        "can_manage_roles"
+    ],
+    "fields": [
+        {
+            "fieldname": "permission_name",
+            "fieldtype": "Data",
+            "label": "Permission Name",
+            "unique": 1,
+            "reqd": 1
+        },
+        {
+            "fieldname": "permission_description",
+            "fieldtype": "Text",
+            "label": "Description"
+        },
+        {
+            "fieldname": "module_access_section",
+            "fieldtype": "Section Break",
+            "label": "Module Access"
+        },
+        {
+            "default": "0",
+            "fieldname": "can_view_head_office",
+            "fieldtype": "Check",
+            "label": "Can View Head Office"
+        },
+        {
+            "default": "0",
+            "fieldname": "can_edit_head_office",
+            "fieldtype": "Check",
+            "label": "Can Edit Head Office"
+        },
+        {
+            "default": "0",
+            "fieldname": "can_view_extension_center",
+            "fieldtype": "Check",
+            "label": "Can View Extension Center"
+        },
+        {
+            "default": "0",
+            "fieldname": "can_edit_extension_center",
+            "fieldtype": "Check",
+            "label": "Can Edit Extension Center"
+        },
+        {
+            "default": "0",
+            "fieldname": "can_view_efc",
+            "fieldtype": "Check",
+            "label": "Can View EFC"
+        },
+        {
+            "default": "0",
+            "fieldname": "can_edit_efc",
+            "fieldtype": "Check",
+            "label": "Can Edit EFC"
+        },
+        {
+            "fieldname": "scheme_access_section",
+            "fieldtype": "Section Break",
+            "label": "Scheme Access"
+        },
+        {
+            "default": "0",
+            "fieldname": "can_view_schemes",
+            "fieldtype": "Check",
+            "label": "Can View Schemes"
+        },
+        {
+            "default": "0",
+            "fieldname": "can_edit_schemes",
+            "fieldtype": "Check",
+            "label": "Can Edit Schemes"
+        },
+        {
+            "fieldname": "staff_access_section",
+            "fieldtype": "Section Break",
+            "label": "Staff Access"
+        },
+        {
+            "default": "0",
+            "fieldname": "can_view_faculty",
+            "fieldtype": "Check",
+            "label": "Can View Faculty"
+        },
+        {
+            "default": "0",
+            "fieldname": "can_edit_faculty",
+            "fieldtype": "Check",
+            "label": "Can Edit Faculty"
+        },
+        {
+            "default": "0",
+            "fieldname": "can_view_employees",
+            "fieldtype": "Check",
+            "label": "Can View Employees"
+        },
+        {
+            "default": "0",
+            "fieldname": "can_edit_employees",
+            "fieldtype": "Check",
+            "label": "Can Edit Employees"
+        },
+        {
+            "fieldname": "report_access_section",
+            "fieldtype": "Section Break",
+            "label": "Report Access"
+        },
+        {
+            "default": "0",
+            "fieldname": "can_view_reports",
+            "fieldtype": "Check",
+            "label": "Can View Reports"
+        },
+        {
+            "default": "0",
+            "fieldname": "can_edit_reports",
+            "fieldtype": "Check",
+            "label": "Can Edit Reports"
+        },
+        {
+            "fieldname": "training_access_section",
+            "fieldtype": "Section Break",
+            "label": "Training Access"
+        },
+        {
+            "default": "0",
+            "fieldname": "can_approve_training",
+            "fieldtype": "Check",
+            "label": "Can Approve Training"
+        },
+        {
+            "fieldname": "admin_access_section",
+            "fieldtype": "Section Break",
+            "label": "Administrative Access"
+        },
+        {
+            "default": "0",
+            "fieldname": "can_export_data",
+            "fieldtype": "Check",
+            "label": "Can Export Data"
+        },
+        {
+            "default": "0",
+            "fieldname": "can_manage_users",
+            "fieldtype": "Check",
+            "label": "Can Manage Users"
+        },
+        {
+            "default": "0",
+            "fieldname": "can_manage_roles",
+            "fieldtype": "Check",
+            "label": "Can Manage Roles"
+        }
+    ],
+    "modified": "2025-10-16 15:00:00.000000",
+    "module": "Super Admin",
+    "name": "Role Permission Master",
+    "naming_rule": "By fieldname",
+    "owner": "Administrator",
+    "permissions": [
+        {
+            "create": 1,
+            "delete": 1,
+            "email": 1,
+            "export": 1,
+            "print": 1,
+            "read": 1,
+            "report": 1,
+            "role": "System Manager",
+            "share": 1,
+            "write": 1
+        }
+    ],
+    "sort_field": "modified",
+    "sort_order": "DESC",
+    "states": []
+}

@@ -1,0 +1,141 @@
+{
+    "actions": [],
+    "allow_rename": 1,
+    "autoname": "field:employee_code",
+    "creation": "2025-10-15 14:49:50.289011",
+    "doctype": "DocType",
+    "editable_grid": 1,
+    "engine": "InnoDB",
+    "field_order": [
+        "employee_name",
+        "employee_code",
+        "column_break_gchc",
+        "employee_type",
+        "designation",
+        "contact_section",
+        "contact_number",
+        "email",
+        "user_section",
+        "user",
+        "role",
+        "status_section",
+        "is_active",
+        "employee_roles"
+    ],
+    "fields": [
+        {
+            "bold": 1,
+            "fieldname": "employee_name",
+            "fieldtype": "Data",
+            "in_list_view": 1,
+            "label": "Employee Name",
+            "reqd": 1
+        },
+        {
+            "fieldname": "employee_code",
+            "fieldtype": "Data",
+            "in_list_view": 1,
+            "label": "Employee Code",
+            "reqd": 1,
+            "unique": 1
+        },
+        {
+            "fieldname": "column_break_gchc",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "employee_type",
+            "fieldtype": "Select",
+            "in_list_view": 1,
+            "label": "Employee Type",
+            "options": "Officer\nAd-hoc\nContract\nOJT\nTemp\nRetired",
+            "reqd": 1
+        },
+        {
+            "fieldname": "designation",
+            "fieldtype": "Data",
+            "label": "Designation"
+        },
+        {
+            "fieldname": "contact_section",
+            "fieldtype": "Section Break",
+            "label": "Contact Details"
+        },
+        {
+            "fieldname": "contact_number",
+            "fieldtype": "Data",
+            "label": "Contact Number",
+            "reqd": 1
+        },
+        {
+            "fieldname": "email",
+            "fieldtype": "Data",
+            "label": "Email",
+            "options": "Email",
+            "reqd": 1
+        },
+        {
+            "fieldname": "user_section",
+            "fieldtype": "Section Break",
+            "label": "User Account"
+        },
+        {
+            "fieldname": "user",
+            "fieldtype": "Link",
+            "label": "User",
+            "options": "User"
+        },
+        {
+            "fieldname": "role",
+            "fieldtype": "Link",
+            "label": "Role",
+            "options": "Role"
+        },
+        {
+            "fieldname": "status_section",
+            "fieldtype": "Section Break",
+            "label": "Status"
+        },
+        {
+            "default": "1",
+            "fieldname": "is_active",
+            "fieldtype": "Check",
+            "label": "Is Active"
+        },
+        {
+            "fieldname": "employee_roles",
+            "fieldtype": "Table MultiSelect",
+            "label": "Additional Roles",
+            "options": "Employee Role Permission",
+            "description": "Additional roles beyond the default role based on employee type"
+        }
+    ],
+    "grid_page_length": 50,
+    "index_web_pages_for_search": 1,
+    "links": [],
+    "modified": "2025-10-16 11:00:28.907386",
+    "modified_by": "Administrator",
+    "module": "Super Admin",
+    "name": "Employee Master",
+    "naming_rule": "By fieldname",
+    "owner": "Administrator",
+    "permissions": [
+        {
+            "create": 1,
+            "delete": 1,
+            "email": 1,
+            "export": 1,
+            "print": 1,
+            "read": 1,
+            "report": 1,
+            "role": "System Manager",
+            "share": 1,
+            "write": 1
+        }
+    ],
+    "row_format": "Dynamic",
+    "sort_field": "creation",
+    "sort_order": "DESC",
+    "states": [],
+    "track_changes": 1
+}

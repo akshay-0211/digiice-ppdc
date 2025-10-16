@@ -1,5 +1,5 @@
 app_name = "ppdc_super_admin"
-app_title = "PPDC Super Admin"
+app_title = "Digiice PPDC"
 app_publisher = "Digiice Development Team"
 app_description = "Super Admin module for PPDC Agra with Master Data Management"
 app_email = "dev@digiice.in"
@@ -26,7 +26,42 @@ app_license = "agpl-3.0"
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/ppdc_super_admin/css/ppdc_super_admin.css"
-# app_include_js = "/assets/ppdc_super_admin/js/ppdc_super_admin.js"
+app_include_js = "/assets/ppdc_super_admin/js/ppdc_super_admin.js"
+# In hooks.py
+website_route_rules = [
+    {"from_route": "/super-admin-dashboard", "to_route": "super-admin-dashboard/index"}
+]
+
+# In hooks.py
+app_include_js = [
+    "/assets/ppdc_super_admin/js/super_admin_workspace.js"
+]
+
+page_js = {
+    "super-admin": "public/js/super_admin_workspace.js"
+}
+
+# Workspace Provider Config
+workspace_route_mapping = {
+    "super-admin": "/app/super-admin"
+}
+
+# hooks.py
+doctype_js = {
+    "Head Office": "public/js/doctype/head_office.js",
+    "Extension Center": "public/js/doctype/extension_center.js",
+    "EFC Master": "public/js/doctype/efc_master.js",
+    "Scheme": "public/js/doctype/scheme.js",
+    "Employee Master": "public/js/doctype/employee_master.js",
+    "Faculty": "public/js/doctype/faculty.js"
+}
+
+doc_events = {
+    "Employee Master": {
+        "after_save": "ppdc_super_admin.super_admin.doctype.employee_master.employee_master.after_save"
+    }
+}
+
 
 # include js, css files in header of web template
 # web_include_css = "/assets/ppdc_super_admin/css/ppdc_super_admin.css"

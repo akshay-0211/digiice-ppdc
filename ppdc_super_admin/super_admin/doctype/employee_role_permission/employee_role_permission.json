@@ -1,0 +1,51 @@
+{
+    "actions": [],
+    "allow_rename": 1,
+    "creation": "2025-10-16 10:37:14.327281",
+    "doctype": "DocType",
+    "editable_grid": 1,
+    "engine": "InnoDB",
+    "field_order": [
+        "role",
+        "permission",
+        "permission_description"
+    ],
+    "fields": [
+        {
+            "fieldname": "role",
+            "fieldtype": "Link",
+            "in_list_view": 1,
+            "label": "Role",
+            "options": "Role",
+            "reqd": 1
+        },
+        {
+            "fieldname": "permission",
+            "fieldtype": "Select",
+            "in_list_view": 1,
+            "label": "Permission",
+            "options": "can_view_head_office\ncan_edit_head_office\ncan_view_extension_center\ncan_edit_extension_center\ncan_view_efc\ncan_edit_efc\ncan_view_schemes\ncan_edit_schemes\ncan_view_faculty\ncan_edit_faculty\ncan_view_employees\ncan_edit_employees\ncan_view_reports\ncan_edit_reports\ncan_approve_training\ncan_export_data\ncan_manage_users\ncan_manage_roles",
+            "reqd": 1
+        },
+        {
+            "fieldname": "permission_description",
+            "fieldtype": "Small Text",
+            "in_list_view": 1,
+            "label": "Description"
+        }
+    ],
+    "grid_page_length": 50,
+    "index_web_pages_for_search": 1,
+    "istable": 1,
+    "links": [],
+    "modified": "2025-10-16 10:37:14.327281",
+    "modified_by": "Administrator",
+    "module": "Super Admin",
+    "name": "Employee Role Permission",
+    "owner": "Administrator",
+    "permissions": [],
+    "row_format": "Dynamic",
+    "sort_field": "creation",
+    "sort_order": "DESC",
+    "states": []
+}

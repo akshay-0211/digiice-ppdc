@@ -1,0 +1,154 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:efc_code",
+ "creation": "2025-10-15 14:49:49.895551",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "efc_name",
+  "efc_code",
+  "column_break_azkf",
+  "head_office",
+  "address_section",
+  "address_line_1",
+  "city",
+  "column_break_6syu",
+  "state",
+  "pincode",
+  "contact_section",
+  "contact_person",
+  "contact_number",
+  "column_break_lt7q",
+  "email",
+  "status_section",
+  "is_active"
+ ],
+ "fields": [
+  {
+   "bold": 1,
+   "fieldname": "efc_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "EFC Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "efc_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "EFC Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "column_break_azkf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "head_office",
+   "fieldtype": "Link",
+   "label": "Head Office",
+   "options": "Head Office"
+  },
+  {
+   "fieldname": "address_section",
+   "fieldtype": "Section Break",
+   "label": "Address Details"
+  },
+  {
+   "fieldname": "address_line_1",
+   "fieldtype": "Data",
+   "label": "Address Line 1",
+   "reqd": 1
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_6syu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Data",
+   "label": "State",
+   "reqd": 1
+  },
+  {
+   "fieldname": "pincode",
+   "fieldtype": "Data",
+   "label": "PIN Code",
+   "reqd": 1
+  },
+  {
+   "fieldname": "contact_section",
+   "fieldtype": "Section Break",
+   "label": "Contact Details"
+  },
+  {
+   "fieldname": "contact_person",
+   "fieldtype": "Data",
+   "label": "Contact Person"
+  },
+  {
+   "fieldname": "contact_number",
+   "fieldtype": "Data",
+   "label": "Contact Number",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_lt7q",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "status_section",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-10-15 14:49:49.895551",
+ "modified_by": "Administrator",
+ "module": "Super Admin",
+ "name": "EFC Master",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

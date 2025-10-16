@@ -1,0 +1,112 @@
+{% extends "templates/web.html" %}
+
+{% block title %}Super Admin - Master Data{% endblock %}
+
+{% block page_content %}
+<div class="container" style="margin-top: 40px;">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 style="margin-bottom: 30px;">
+                <i class="fa fa-shield"></i> Super Admin - Master Data Management
+            </h2>
+            <p class="text-muted" style="margin-bottom: 40px;">
+                Centralized management of all master data for PPDC Agra
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Head Office -->
+        <div class="col-md-4 col-sm-6" style="margin-bottom: 20px;">
+            <a href="/app/doctype/head-office" class="card-link">
+                <div class="master-card blue-card">
+                    <div class="card-icon"><i class="fa fa-building"></i></div>
+                    <h4>Head Office</h4>
+                    <p>Manage headquarters</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Extension Center -->
+        <div class="col-md-4 col-sm-6" style="margin-bottom: 20px;">
+            <a href="/app/doctype/extension-center" class="card-link">
+                <div class="master-card green-card">
+                    <div class="card-icon"><i class="fa fa-map-marker"></i></div>
+                    <h4>Extension Center</h4>
+                    <p>18+ field centers</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- EFC Master -->
+        <div class="col-md-4 col-sm-6" style="margin-bottom: 20px;">
+            <a href="/app/efc-master" class="card-link">
+                <div class="master-card purple-card">
+                    <div class="card-icon"><i class="fa fa-home"></i></div>
+                    <h4>EFC Master</h4>
+                    <p>Facilitation Centers</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Scheme -->
+        <div class="col-md-4 col-sm-6" style="margin-bottom: 20px;">
+            <a href="/app/scheme" class="card-link">
+                <div class="master-card orange-card">
+                    <div class="card-icon"><i class="fa fa-file-text"></i></div>
+                    <h4>Scheme</h4>
+                    <p>Government schemes</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Employee Master -->
+        <div class="col-md-4 col-sm-6" style="margin-bottom: 20px;">
+            <a href="/app/employee-master" class="card-link">
+                <div class="master-card red-card">
+                    <div class="card-icon"><i class="fa fa-users"></i></div>
+                    <h4>Employee Master</h4>
+                    <p>Staff with RBAC</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Faculty -->
+        <div class="col-md-4 col-sm-6" style="margin-bottom: 20px;">
+            <a href="/app/faculty" class="card-link">
+                <div class="master-card cyan-card">
+                    <div class="card-icon"><i class="fa fa-user"></i></div>
+                    <h4>Faculty</h4>
+                    <p>Trainers & instructors</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+.card-link { text-decoration: none; color: inherit; display: block; }
+.master-card {
+    padding: 40px 20px;
+    text-align: center;
+    border-radius: 8px;
+    background: #fff;
+    border: 2px solid;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+.master-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+.card-icon { font-size: 48px; margin-bottom: 15px; }
+.master-card h4 { margin: 10px 0; font-weight: 600; }
+.master-card p { margin: 0; color: #666; font-size: 14px; }
+.blue-card { border-color: #3498db; } .blue-card .card-icon { color: #3498db; }
+.green-card { border-color: #2ecc71; } .green-card .card-icon { color: #2ecc71; }
+.purple-card { border-color: #9b59b6; } .purple-card .card-icon { color: #9b59b6; }
+.orange-card { border-color: #e67e22; } .orange-card .card-icon { color: #e67e22; }
+.red-card { border-color: #e74c3c; } .red-card .card-icon { color: #e74c3c; }
+.cyan-card { border-color: #1abc9c; } .cyan-card .card-icon { color: #1abc9c; }
+</style>
+{% endblock %}
